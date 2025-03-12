@@ -1,12 +1,12 @@
 import React from "react";
 import "./Home.css";
-
+import { Link } from "react-router-dom";
 
 const Home = () => {
     return (
         <div className="container">
             <div className="header">
-                <img src="./../assets/Images/Logo(Nav) (1).png" />
+                <img src="./../../public/Images/Logo(Nav).png" />
                 <span className="logo-text">Homiee</span>
             </div>
             <div className="content">
@@ -19,9 +19,11 @@ const Home = () => {
                 </div>
                 <div className="buttons-section">
                     <div className="buttons">
-                        <button className="login-btn">Log in</button>
+                        <Link to="/sign-in">
+                            <button className="login-btn">Log in</button>
+                        </Link>
                         <div className="icon-container">
-                            <img src="./../assets/Images/Logo(Nav) (1).png" alt="" />
+                            <img src="./../../public/Images/Logo(Nav) (1).png" alt="" />
                         </div>
                         <button className="signup-btn">Sign Up Now</button>
                     </div>

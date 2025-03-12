@@ -10,6 +10,8 @@ body {
 
 .header {
     padding: 20px;
+    display: flex;
+    align-items: center;
 }
 
 .header span {
@@ -36,8 +38,9 @@ body {
 }
 
 .content .buttons-section .buttons {
-    padding-right: 300px;
+    padding-right: 50px;
     display: flex;
+    align-items: center;
 }
 
 .content .buttons-section .buttons button {
@@ -48,5 +51,6 @@ body {
     border-radius: 15px;
     height: 60px;
     color: white;
+    cursor: pointer;
 
 }
