@@ -1,0 +1,125 @@
+.signup-container {
+    background-color: #1e3a8a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    position: relative;
+}
+
+.signup-header {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    color: white;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.signup-brand {
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.signup-card {
+    background-color: #374151;
+    padding: 32px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+}
+
+.signup-title {
+    color: white;
+    font-size: 1.5rem;
+    margin-bottom: 16px;
+}
+
+.signup-input-group {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 16px;
+}
+
+.signup-input {
+    background-color: #4b5563;
+    color: white;
+    padding: 10px;
+    border-radius: 4px;
+    border: none;
+}
+
+.half-input {
+    width: 48%;
+}
+
+.full-input {
+    width: 100%;
+    margin-bottom: 12px;
+}
+
+.signup-btn {
+    background-color: #2563eb;
+    color: white;
+    padding: 10px;
+    border-radius: 4px;
+    border: none;
+    width: 100%;
+    margin-bottom: 12px;
+    cursor: pointer;
+}
+
+.signup-google-btn {
+    background-color: white;
+    color: black;
+    padding: 10px;
+    border-radius: 4px;
+    border: none;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.signup-google-logo {
+    height: 20px;
+    width: 20px;
+    margin-right: 8px;
+}
+
+.signup-footer {
+    margin-top: 16px;
+    text-align: right;
+}
+
+.signup-login-link {
+    color: #3b82f6;
+    text-decoration: none;
+}
+
+.signup-bottom-left {
+    position: absolute;
+    bottom: 16px;
+    left: 16px;
+}
+
+.signup-robot {
+    width: 100px;
+    height: auto;
+}
+
+.signup-right {
+    position: absolute;
+    top: 50%;
+    right: 16px;
+    transform: translateY(-50%);
+}
+
+.signup-spiral {
+    width: 100px;
+    height: auto;
+}
