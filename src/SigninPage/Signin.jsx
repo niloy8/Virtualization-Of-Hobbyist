@@ -32,7 +32,6 @@ const Signin = () => {
             </div>
         </div>
 
-
     );
 };
 
