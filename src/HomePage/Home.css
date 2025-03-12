@@ -1,0 +1,52 @@
+body {
+    background-image: url(./../assets/Images/BG.png);
+    background-size: cover;
+    background-position: center;
+    color: white;
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+}
+
+.header {
+    padding: 20px;
+}
+
+.header span {
+    padding-left: 8px;
+    font-size: larger;
+}
+
+.content {
+    display: flex;
+    min-height: 80vh;
+    align-items: center;
+    justify-content: space-between;
+    padding-left: 60px;
+}
+
+.content .title {
+    width: 508px;
+    font-size: 50px;
+}
+
+.content .description {
+    width: 400px;
+
+}
+
+.content .buttons-section .buttons {
+    padding-right: 300px;
+    display: flex;
+}
+
+.content .buttons-section .buttons button {
+    margin: 10px;
+    background-color: #5865F2;
+    border: none;
+    width: 200px;
+    border-radius: 15px;
+    height: 60px;
+    color: white;
+
+}
