@@ -18,6 +18,7 @@ body {
     position: absolute;
     top: 16px;
     left: 16px;
+    cursor: pointer;
     color: white;
     font-size: 1.25rem;
     font-weight: bold;

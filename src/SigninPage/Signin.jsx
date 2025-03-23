@@ -8,7 +8,7 @@ const Signin = () => {
         <div className="signin-container">
             <div className="signin-header">
                 <img src="./../../public/Images/Logo(Nav).png" alt="" />
-                <span>Homiee</span>
+                <Link to="/home-page" className="go-to-home">Homiee</Link>
             </div>
             <div className="signin-login-box">
                 <h2>Log in</h2>
