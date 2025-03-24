@@ -1,0 +1,99 @@
+body {
+    background-color: #0b0f29;
+    font-family: 'Press Start 2P', cursive;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    margin: 0;
+}
+
+.container {
+    width: 100%;
+    max-width: 400px;
+}
+
+.card {
+    padding: 24px;
+    background-color: #2d3748;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: white;
+    font-size: 20px;
+}
+
+.icon {
+    margin-right: 10px;
+}
+
+.content h2 {
+    color: white;
+    font-size: 18px;
+    margin-bottom: 16px;
+}
+
+.search-bar {
+    position: relative;
+    margin-bottom: 16px;
+}
+
+.search-bar input {
+    width: 100%;
+    padding: 10px 14px;
+    padding-right: 40px;
+    background-color: #1a202c;
+    border: none;
+    border-radius: 20px;
+    color: white;
+    outline: none;
+}
+
+.search-icon {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: white;
+}
+
+.interest-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+    background-color: #cbd5e0;
+    padding: 12px;
+    border-radius: 8px;
+}
+
+.interest {
+    background-color: #2a4365;
+    color: white;
+    padding: 6px 12px;
+    border-radius: 16px;
+}
+
+.button-container {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 16px;
+}
+
+.next-button {
+    background-color: #1a202c;
+    color: white;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+.next-button:hover {
+    background-color: #2d3748;
+}

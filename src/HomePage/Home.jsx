@@ -25,7 +25,7 @@ const Home = () => {
                         <div className="icon-container">
                             <img src="./../../public/Images/Logo(Nav) (1).png" alt="" />
                         </div>
-                        <button className="signup-btn">Sign Up Now</button>
+                        <Link to="/sign-up"><button className="signup-btn">Sign Up Now</button></Link>
                     </div>
 
                 </div>
