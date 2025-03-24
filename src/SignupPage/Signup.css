@@ -2,6 +2,7 @@ body {
     background: linear-gradient(to bottom, black, #1e3a8a);
     height: 100vh;
     display: flex;
+    color: white;
     align-items: center;
     justify-content: center;
     position: relative;

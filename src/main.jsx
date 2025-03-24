@@ -5,6 +5,7 @@ import App from "./App";
 import Signin from "./SigninPage/Signin";
 import Signup from "./SignupPage/Signup";
 import Home from "./HomePage/Home";
+import Choose from "./Choose Hobby/Choose";
 
 const root = document.getElementById("root");
 
@@ -15,6 +16,7 @@ ReactDOM.createRoot(root).render(
       <Route path="/sign-in" element={<Signin></Signin>}></Route>
       <Route path="/sign-up" element={<Signup></Signup>}></Route>
       <Route path="/home-page" element={<Home></Home>}></Route>
+      <Route path="/hobby-selection" element={<Choose></Choose>}></Route>
     </Routes>
   </BrowserRouter>
 );

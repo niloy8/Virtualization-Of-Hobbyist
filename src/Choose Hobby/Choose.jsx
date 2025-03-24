@@ -1,22 +1,21 @@
 import React from "react";
-import "./InterestSelection.css";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSearch } from "@fortawesome/free-solid-svg-icons";
+import "./Choose.css";
+import { Link } from "react-router-dom";
 
-const InterestSelection = () => {
+const Choose = () => {
     return (
-        <div className="container">
+        <div className="container-choose">
             <div className="signin-header">
                 <img src="./../../public/Images/Logo(Nav).png" alt="" />
                 <Link to="/home-page" className="go-to-home">Homiee</Link>
             </div>
             <div className="card">
-
-                <div className="content">
-                    <h2>Choose Your Interest</h2>
-                    <div className="search-bar">
-                        <input type="text" placeholder="" />
-                        <FontAwesomeIcon icon={faSearch} className="search-icon" />
+                <div className="content-choose">
+                    <div className="search-interest">
+                        <h2>Choose Your Interest</h2>
+                        <div className="search-bar">
+                            <input type="text" placeholder="Search Your Interest" />
+                        </div>
                     </div>
                     <div className="interest-container">
                         {["Painting", "Gardening", "Photography", "Cooking", "Wood Working", "Calligraphy", "Musical Instruments", "Hiking", "Collecting", "Gaming", "Pottery", "Cycling", "Blogging", "Chess", "Fitness", "Video editing", "DIY crafting", "Yoga"].map((interest, index) => (
@@ -32,4 +31,4 @@ const InterestSelection = () => {
     );
 };
 
-export default InterestSelection;
+export default Choose;

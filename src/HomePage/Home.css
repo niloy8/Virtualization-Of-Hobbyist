@@ -1,13 +1,3 @@
-body {
-    background-image: url(./../assets/Images/BG.png);
-    background-size: cover;
-    background-position: center;
-    color: white;
-    min-height: 100vh;
-    margin: 0;
-    padding: 0;
-}
-
 .header {
     padding: 20px;
     display: flex;
