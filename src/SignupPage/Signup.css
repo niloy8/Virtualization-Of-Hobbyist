@@ -15,6 +15,7 @@ body {
     flex-direction: column;
     align-items: center;
     position: relative;
+    text-align: center;
 }
 
 .signup-header {
@@ -26,7 +27,6 @@ body {
     font-size: 1.25rem;
     font-weight: bold;
     display: flex;
-    cursor: pointer;
     align-items: center;
 }
 
@@ -41,11 +41,12 @@ body {
 
 .signup-card {
     background: #2d3748;
-    width: 350px;
+    width: 300px;
     padding: 40px;
     border-radius: 8px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
     text-align: center;
+    margin: auto;
 }
 
 .signup-title {
@@ -69,6 +70,8 @@ body {
     border: none;
     border-radius: 4px;
     outline: none;
+    display: block;
+    margin: 10px 0;
 }
 
 .signup-input:focus {
@@ -141,4 +144,11 @@ body {
 .signup-right {
     bottom: 16px;
     right: 16px;
+}
+
+/* Error Message Styling */
+.error-message {
+    color: red;
+    font-size: 14px;
+    margin-bottom: 10px;
 }

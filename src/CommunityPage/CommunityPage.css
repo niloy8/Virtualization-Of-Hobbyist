@@ -1,0 +1,94 @@
+/* Global Styles */
+.community-container {
+    width: 225vh;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    background-color: #111;
+    color: white;
+}
+
+/* Navigation Bar */
+.community-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: linear-gradient(to bottom, black, #1e3a8a);
+    padding: 1rem;
+}
+
+.community-nav-left {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.community-nav-right {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.community-icon {
+    font-size: 1.5rem;
+}
+
+.community-search {
+    background-color: #333;
+    color: white;
+    border-radius: 20px;
+    padding: 0.5rem 1rem;
+    outline: none;
+    border: none;
+}
+
+/* Content Layout */
+.community-content {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+}
+
+/* Sidebar */
+.community-sidebar {
+    background: linear-gradient(to bottom, rgb(51, 49, 49), #293855);
+    width: 25%;
+    padding: 1rem;
+}
+
+.community-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+}
+
+.community-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.community-img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+
+/* Main Content */
+.community-main {
+    flex: 1;
+    background-color: #000000;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Style for active links */
+.navlink-chat.active {
+    color: #1e90ff;
+    /* Highlight color */
+    font-weight: bold;
+}
