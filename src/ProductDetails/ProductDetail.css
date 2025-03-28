@@ -1,0 +1,169 @@
+.product-slider-container {
+
+    background-color: black;
+    padding: 16px;
+}
+
+.product-slider-card {
+    background-color: #1e1e1e;
+    padding: 24px;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.product-slider-image-container {
+    position: relative;
+    width: 100%;
+    height: 200px;
+    margin-bottom: 16px;
+}
+
+.product-slider-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.product-slider-button-left,
+.product-slider-button-right {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: #e9edf3;
+    color: black;
+    padding: 8px;
+    border-radius: 50%;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.product-slider-button-left {
+    left: 8px;
+}
+
+.product-slider-button-right {
+    right: 8px;
+}
+
+.product-slider-description {
+    color: #d1d5db;
+    text-align: center;
+    margin-bottom: 16px;
+}
+
+.product-slider-name {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.product-slider-text {
+    font-size: 14px;
+}
+
+.product-slider-actions {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    width: 100%;
+}
+
+.product-slider-action-button {
+    outline: none;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 10px;
+
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.product-slider-cart-icon {
+    color: #6579a1;
+    cursor: pointer;
+    font-size: 24px;
+    margin-top: 8px;
+    margin-left: 12px;
+}
+
+
+.magnify-image {
+
+    transition: transform 0.3s ease-in-out;
+}
+
+.magnify-image:hover {
+    transform: scale(1.5);
+}
+
+
+@media (max-width: 768px) {
+    .product-slider-card {
+        padding: 16px;
+        width: 90%;
+    }
+
+    .product-slider-image-container {
+        height: 150px;
+    }
+}
+
+@media (max-width: 480px) {
+    .product-slider-actions {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .product-slider-action-button {
+        width: 100%;
+        margin-bottom: 8px;
+    }
+
+    .product-slider-cart-icon {
+        font-size: 20px;
+        margin-left: 0;
+    }
+}
+
+
+.product-slider-text {
+    position: relative;
+    cursor: pointer;
+}
+
+.product-slider-text {
+    position: relative;
+    cursor: pointer;
+}
+
+.product-slider-text::after {
+    content: "This is a brief description of the product. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat error quibusdam dolor, atque necessitatibus reprehenderit corrupti consectetur quo veniam recusandae optio provident aliquid doloribus aspernatur eaque inventore nisi, facilis neque?";
+    position: absolute;
+    bottom: 120%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgb(46, 44, 44);
+    color: rgb(194, 192, 192);
+    padding: 10px;
+    border-radius: 5px;
+    width: 250px;
+    /* Set a fixed width */
+    text-align: center;
+    /* Center align text */
+    white-space: normal;
+    /* Allow text to wrap */
+    word-wrap: break-word;
+    /* Ensure long words break */
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.product-slider-text:hover::after {
+    opacity: 1;
+    visibility: visible;
+}

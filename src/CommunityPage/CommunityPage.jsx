@@ -2,7 +2,7 @@ import React from "react";
 import { NavLink, Outlet } from "react-router-dom";
 import "./CommunityPage.css"; // Import the CSS file
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHome, faUserCircle, faCog, faBell } from "@fortawesome/free-solid-svg-icons";
+import { faHome } from "@fortawesome/free-solid-svg-icons";
 
 const CommunityPage = () => {
     return (
@@ -13,11 +13,17 @@ const CommunityPage = () => {
                     <img src="./../../public/Images/Logo(Nav).png" className="community-icon" />
                     <input type="text" placeholder="Search" className="community-search" />
                 </div>
+
                 <div className="community-nav-right">
                     <FontAwesomeIcon icon={faHome} className="community-icon" />
-                    <FontAwesomeIcon icon={faUserCircle} className="community-icon" />
-                    <FontAwesomeIcon icon={faCog} className="community-icon" />
-                    <FontAwesomeIcon icon={faBell} className="community-icon" />
+                    <NavLink to="profile">
+                        <img src="../../public/Images/🦆 icon _User Circle_.png" alt="" />
+                    </NavLink>
+                    <img src="../../public/Images/JustSpecific.png" alt="" />
+                </div>
+                <div className="community-nav-right-notification">
+                    <NavLink to="products"><img src="../../public/Images/Marketplace.png" alt="" /></NavLink>
+                    <img src="../../public/Images/🦆 icon _bell_.png" alt="" />
                 </div>
             </div>
 

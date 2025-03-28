@@ -8,6 +8,9 @@ import Home from "./HomePage/Home";
 import Choose from "./Choose Hobby/Choose";
 import CommunityPage from "./CommunityPage/CommunityPage";
 import Chat from "./CommunityPage/Chat";
+import ProfilePage from "./ProfilePage/ProfilePage";
+import ProductGrid from "./Products/ProductGrid";
+import ProductDetail from "./ProductDetails/ProductDetail";
 
 
 
@@ -24,7 +27,11 @@ ReactDOM.createRoot(root).render(
       <Route path="/community-page" element={<CommunityPage />}>
         {/* Nested route for Chat */}
         <Route path="chat" element={<Chat />} />
+        <Route path="profile" element={<ProfilePage></ProfilePage>}></Route>
+        <Route path="products" element={<ProductGrid></ProductGrid>}></Route>
+        <Route path="productdetail" element={<ProductDetail></ProductDetail>}></Route>
       </Route>
+
     </Routes>
   </BrowserRouter>
 );

@@ -26,12 +26,21 @@
 .community-nav-right {
     display: flex;
     align-items: center;
-    gap: 1.5rem;
+    gap: 4rem;
+    margin: 0 auto;
+
+}
+
+.community-nav-right img {
+    cursor: pointer;
 }
 
 .community-icon {
     font-size: 1.5rem;
+    cursor: pointer;
+    color: #c5c0c0;
 }
+
 
 .community-search {
     background-color: #333;
@@ -79,7 +88,7 @@
 .community-main {
     flex: 1;
     background-color: #000000;
-    padding: 1rem;
+
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -91,4 +100,14 @@
     color: #1e90ff;
     /* Highlight color */
     font-weight: bold;
+}
+
+.community-nav-right-notification {
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+}
+
+.community-nav-right-notification img {
+    cursor: pointer;
 }
