@@ -29,6 +29,10 @@ const products = [
 const ProductGrid = () => {
     return (
         <div className="product-page-container">
+            <div className="product-search">
+                <input type="search" placeholder="Search for products" />
+                <NavLink to='/community-page/sellerboard'><button className="sellerdashboard-button">Dashboard</button></NavLink>
+            </div>
             <div className="product-page-grid">
                 {products.map((product) => (
                     <div key={product.id} className="product-page-card">

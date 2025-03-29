@@ -37,3 +37,20 @@
     text-decoration: none;
     color: white;
 }
+
+.product-search input {
+    padding: 15px;
+    border: none;
+    width: 300px;
+    margin: 15px;
+    border-radius: 20px;
+}
+
+.product-search button {
+    background-color: rgb(124, 124, 129);
+    padding: 10px 20px;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    color: white;
+}

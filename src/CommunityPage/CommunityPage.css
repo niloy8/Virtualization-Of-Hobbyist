@@ -95,6 +95,11 @@
     align-items: center;
 }
 
+
+.navlink-chat {
+    color: white;
+}
+
 /* Style for active links */
 .navlink-chat.active {
     color: #1e90ff;

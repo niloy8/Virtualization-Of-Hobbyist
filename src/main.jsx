@@ -11,6 +11,9 @@ import Chat from "./CommunityPage/Chat";
 import ProfilePage from "./ProfilePage/ProfilePage";
 import ProductGrid from "./Products/ProductGrid";
 import ProductDetail from "./ProductDetails/ProductDetail";
+import Placeorder from "./PlaceOrder/Placeorder";
+import SellerDashboard from "./SellerDashboard/SellerDashboard";
+import ProductCart from "./ProductCart/ProductCart";
 
 
 
@@ -30,6 +33,10 @@ ReactDOM.createRoot(root).render(
         <Route path="profile" element={<ProfilePage></ProfilePage>}></Route>
         <Route path="products" element={<ProductGrid></ProductGrid>}></Route>
         <Route path="productdetail" element={<ProductDetail></ProductDetail>}></Route>
+        <Route path="placeorder" element={<Placeorder></Placeorder>}></Route>
+        <Route path="sellerboard" element={<SellerDashboard></SellerDashboard>}></Route>
+        <Route path="productcart" element={<ProductCart></ProductCart>}></Route>
+
       </Route>
 
     </Routes>

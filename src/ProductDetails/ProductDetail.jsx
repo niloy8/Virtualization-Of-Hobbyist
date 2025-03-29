@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import "./ProductDetail.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
+import { NavLink } from "react-router-dom";
 
 const ProductDetail = () => {
     const images = [
@@ -46,9 +47,9 @@ const ProductDetail = () => {
                     <p className="product-slider-text">Description</p>
                 </div>
                 <div className="product-slider-actions">
-                    <button className="product-slider-action-button">Check Out</button>
+                    <NavLink to='/community-page/placeorder'> <button className="product-slider-action-button">Check Out</button></NavLink>
                     <button className="product-slider-action-button">Add To Cart</button>
-                    <FontAwesomeIcon icon={faCartShopping} className="product-slider-cart-icon" />
+                    <NavLink to='/community-page/productcart'><FontAwesomeIcon icon={faCartShopping} className="product-slider-cart-icon" /></NavLink>
 
                 </div>
             </div>
