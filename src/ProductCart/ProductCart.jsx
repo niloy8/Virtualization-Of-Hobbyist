@@ -1,5 +1,6 @@
 import { useState } from "react";
 import "./ProductCart.css";
+import { NavLink } from "react-router-dom";
 
 const ProductCart = () => {
     const [products, setProducts] = useState([
@@ -35,7 +36,7 @@ const ProductCart = () => {
                 </div>
             </div>
 
-            <div className="product-list">
+            <div className="product-cart-list">
                 {products.map((product) => (
                     <div key={product.id} className="product-item">
                         <img
@@ -60,7 +61,7 @@ const ProductCart = () => {
             </div>
 
             <div className="mt-8">
-                <button className="checkout-btn">CheckOut</button>
+                <NavLink to='/community-page/placeorder'><button className="checkout-btn">CheckOut</button></NavLink>
             </div>
 
             <div className="chat-icon">

@@ -50,7 +50,7 @@ const SellerDashboard = () => {
                 </div>
             </div>
 
-            <div className="product-list">
+            <div className="product-list product-dashboard-list">
                 <div className="search-bar">
                     <input type="text" className="input-field" placeholder="Search" />
                     <button className="btn-secondary">Search</button>

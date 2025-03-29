@@ -34,9 +34,10 @@ body {
 }
 
 /* Product List - Scrollable */
-.product-list {
+.product-cart-list {
     max-height: 350px;
     overflow-y: auto;
+    margin-top: 30px;
     width: 90%;
     max-width: 500px;
     background-color: #dfe1e6;

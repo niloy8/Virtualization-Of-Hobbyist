@@ -2,6 +2,7 @@ import React from "react";
 import "./ProfilePage.css"; // Import the separate CSS file
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlusCircle, faImage } from "@fortawesome/free-solid-svg-icons";
+import { NavLink } from "react-router-dom";
 
 const ProfilePage = () => {
     return (
@@ -18,7 +19,7 @@ const ProfilePage = () => {
                     <p className="profile-description">Description</p>
                 </div>
                 <div className="profile-action">
-                    <FontAwesomeIcon icon={faPlusCircle} className="icon-plus" /><p>Create Journal</p>
+                    <NavLink to='/community-page/journal'><FontAwesomeIcon icon={faPlusCircle} className="icon-plus" /></NavLink><p>Create Journal</p>
                 </div>
             </div>
 

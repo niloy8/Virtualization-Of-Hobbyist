@@ -15,11 +15,11 @@ const CommunityPage = () => {
                 </div>
 
                 <div className="community-nav-right">
-                    <FontAwesomeIcon icon={faHome} className="community-icon" />
+                    <NavLink to='/community-page/allposts'><FontAwesomeIcon icon={faHome} className="community-icon" /></NavLink>
                     <NavLink to="profile">
                         <img src="../../public/Images/🦆 icon _User Circle_.png" alt="" />
                     </NavLink>
-                    <img src="../../public/Images/JustSpecific.png" alt="" />
+                    <NavLink to='/community-page/specificpost'><img src="../../public/Images/JustSpecific.png" alt="" /></NavLink>
                 </div>
                 <div className="community-nav-right-notification">
                     <NavLink to="products"><img src="../../public/Images/Marketplace.png" alt="" /></NavLink>

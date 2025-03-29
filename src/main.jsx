@@ -14,6 +14,9 @@ import ProductDetail from "./ProductDetails/ProductDetail";
 import Placeorder from "./PlaceOrder/Placeorder";
 import SellerDashboard from "./SellerDashboard/SellerDashboard";
 import ProductCart from "./ProductCart/ProductCart";
+import PostFeed from "./PostFeed/PostFeed";
+import SpecificPost from "./SpecificPost/SpecificPost";
+import Journal from "./JournalMaking/Journal";
 
 
 
@@ -36,7 +39,9 @@ ReactDOM.createRoot(root).render(
         <Route path="placeorder" element={<Placeorder></Placeorder>}></Route>
         <Route path="sellerboard" element={<SellerDashboard></SellerDashboard>}></Route>
         <Route path="productcart" element={<ProductCart></ProductCart>}></Route>
-
+        <Route path="allposts" element={<PostFeed></PostFeed>}></Route>
+        <Route path="specificpost" element={<SpecificPost></SpecificPost>}></Route>
+        <Route path="journal" element={<Journal></Journal>}></Route>
       </Route>
 
     </Routes>

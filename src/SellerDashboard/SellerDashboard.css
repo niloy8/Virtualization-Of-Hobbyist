@@ -94,6 +94,7 @@
 
 .product-list {
     background: #d1d5db;
+
     padding: 1rem;
     border-radius: 8px;
     margin-top: 1rem;
@@ -117,6 +118,7 @@
 .product-item {
     display: flex;
     align-items: center;
+
     justify-content: space-between;
     background: #1f1e1e;
     color: white;
