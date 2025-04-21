@@ -24,6 +24,8 @@ const Signin = () => {
 
             alert("Login successful!");
             navigate("/hobby-selection");
+            localStorage.setItem("token", data.token);
+            localStorage.setItem("email", data.email);
         } catch (err) {
             setError(err.message);
         }

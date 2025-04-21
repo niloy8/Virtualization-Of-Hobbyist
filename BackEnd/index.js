@@ -82,7 +82,39 @@ async function run() {
             }
 
             const token = jwt.sign({ userId: user._id, email: user.email }, JWT_SECRET, { expiresIn: "1h" });
-            res.json({ message: "Login successful!", token, userName: user.userName });
+            res.json({ message: "Login successful!", token, email: user.email, userName: user.userName });
+
+
+
+        });
+
+        app.put("/users/hobbies", async (req, res) => {
+            let { email, hobbies } = req.body;
+
+            if (!email || !Array.isArray(hobbies)) {
+                return res.status(400).json({ error: "Email and hobbies are required." });
+            }
+
+            email = email.trim().toLowerCase(); // normalize email
+
+            const user = await client.db("homiee").collection("users").findOne({ email });
+            if (!user) {
+                return res.status(404).json({ error: "User not found." });
+            }
+
+            const result = await client
+                .db("homiee")
+                .collection("users")
+                .updateOne(
+                    { email },
+                    { $set: { hobbies } }
+                );
+
+            if (result.modifiedCount === 0) {
+                return res.status(400).json({ error: "Failed to update hobbies." });
+            }
+
+            res.json({ message: "Hobbies updated successfully!" });
         });
 
         // For testing - get all users

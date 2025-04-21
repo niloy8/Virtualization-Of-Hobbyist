@@ -83,3 +83,16 @@
 .next-button:hover {
     background-color: #060708;
 }
+
+.interest.selected {
+    background-color: #63b3ed;
+    /* light blue */
+    color: #1a202c;
+    /* dark text */
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.interest {
+    cursor: pointer;
+}
