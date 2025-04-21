@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 /* eslint-disable no-undef */
 require("dotenv").config();
 const express = require("express");
@@ -9,16 +8,21 @@ const jwt = require("jsonwebtoken");
 
 const app = express();
 const port = process.env.PORT || 5000;
-const JWT_SECRET = "1354c4beeca480b1569d729d147fc39f45ac545eab7746ef6ae8215d4f0c924a"; // Change this to a secure key
+const JWT_SECRET = process.env.JWT_SECRET || "your-super-secret-key";
 
 app.use(cors());
 app.use(express.json());
 
-const uri = "mongodb+srv://niloybhuiyan321:9nwzefG3T98zaZBI@cluster0.gqjzz.mongodb.net/?appName=Cluster0";
-
+const uri = process.env.MONGODB_URI || "mongodb+srv://niloybhuiyan321:9nwzefG3T98zaZBI@cluster0.gqjzz.mongodb.net/?appName=Cluster0";
 const client = new MongoClient(uri, {
     serverApi: { version: ServerApiVersion.v1, strict: true, deprecationErrors: true }
 });
+
+// Helper function for email format validation
+const isValidEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
+// Helper function for password strength
+const isStrongPassword = (password) => password.length >= 8;
 
 async function run() {
     try {
@@ -27,7 +31,7 @@ async function run() {
 
         const usersCollection = client.db("homiee").collection("users");
 
-        // ✅ User Signup
+        // 🔐 Signup Route with Validations
         app.post("/signup", async (req, res) => {
             const { firstName, lastName, userName, email, password } = req.body;
 
@@ -35,19 +39,31 @@ async function run() {
                 return res.status(400).json({ error: "All fields are required!" });
             }
 
-            const existingUser = await usersCollection.findOne({ email });
-            if (existingUser) {
+            if (!isValidEmail(email)) {
+                return res.status(400).json({ error: "Invalid email format!" });
+            }
+
+            if (!isStrongPassword(password)) {
+                return res.status(400).json({ error: "Password must be at least 8 characters long!" });
+            }
+
+            const existingEmail = await usersCollection.findOne({ email });
+            if (existingEmail) {
                 return res.status(400).json({ error: "Email already exists!" });
             }
 
+            const existingUserName = await usersCollection.findOne({ userName });
+            if (existingUserName) {
+                return res.status(400).json({ error: "Username already taken!" });
+            }
+
             const hashedPassword = await bcrypt.hash(password, 10);
-            const newUser = { firstName, lastName, userName, email, password: hashedPassword };
-            await usersCollection.insertOne(newUser);
+            await usersCollection.insertOne({ firstName, lastName, userName, email, password: hashedPassword });
 
             res.status(201).json({ message: "Signup successful!" });
         });
 
-        //  User Login
+        // 🔐 Login Route
         app.post("/login", async (req, res) => {
             const { email, password } = req.body;
 
@@ -66,30 +82,25 @@ async function run() {
             }
 
             const token = jwt.sign({ userId: user._id, email: user.email }, JWT_SECRET, { expiresIn: "1h" });
-
             res.json({ message: "Login successful!", token, userName: user.userName });
         });
 
+        // For testing - get all users
+        app.get("/users", async (req, res) => {
+            const users = await usersCollection.find().toArray();
+            res.json(users);
+        });
+
     } finally {
-        // Don't close connection immediately
+        // Keep connection open
     }
 }
+
 run().catch(console.dir);
-app.get('/', (req, res) => {
-    res.send('Server is running!');
-});
 
-// ✅ Get all users (for testing)
-app.get("/users", async (req, res) => {
-    try {
-        const usersCollection = client.db("homiee").collection("users");
-        const users = await usersCollection.find().toArray();
-        res.json(users);
-    } catch (error) {
-        res.status(500).json({ error: "Failed to fetch users!" });
-    }
+app.get("/", (req, res) => {
+    res.send("Server is running!");
 });
-
 
 app.listen(port, () => {
     console.log(`Server running on port ${port}`);

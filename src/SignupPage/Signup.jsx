@@ -19,7 +19,7 @@ const Signup = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setError(""); // Clear previous errors
+        setError("");
 
         try {
             const response = await fetch("http://localhost:5000/signup", {
@@ -29,17 +29,14 @@ const Signup = () => {
             });
 
             const data = await response.json();
-            if (!response.ok) {
-                throw new Error(data.error);
-            }
+            if (!response.ok) throw new Error(data.error);
 
             alert("Signup Successful! You can now log in.");
-            navigate("/hobby-selection");
+            navigate("/sign-in");
         } catch (err) {
             setError(err.message);
         }
     };
-
 
     return (
         <div className="signup-container">
