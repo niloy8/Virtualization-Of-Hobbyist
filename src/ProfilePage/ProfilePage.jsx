@@ -15,10 +15,23 @@ const ProfilePage = () => {
     const [media, setMedia] = useState(null);
     const [userPosts, setUserPosts] = useState([]);
     const [likedPosts, setLikedPosts] = useState({});
-    const [comments, setComments] = useState({});  // State to store comments for each post
-    const [shares, setShares] = useState({});  // State to store share count for each post
-    const [showComments, setShowComments] = useState({}); // Track which post comments are visible
+    const [comments, setComments] = useState({});
+    const [shares, setShares] = useState({});
+    const [showComments, setShowComments] = useState({});
+    const [selectedTopic, setSelectedTopic] = useState("");
+    const [searchTopic, setSearchTopic] = useState("");
+
     const fileInputRef = useRef();
+
+    const hobbies = [
+        "DIY Crafting", "Yoga", "Traveling", "Photography", "Gaming",
+        "Music", "Painting", "Fitness", "Cooking", "Blogging",
+        "Personal"
+    ];
+
+    const filteredHobbies = hobbies.filter((hobby) =>
+        hobby.toLowerCase().includes(searchTopic.toLowerCase())
+    );
 
     const handleImageChange = (e) => {
         const file = e.target.files[0];
@@ -38,25 +51,38 @@ const ProfilePage = () => {
     const handleFileUpload = (e) => setMedia(e.target.files[0]);
 
     const handlePostSubmit = () => {
+        if (!selectedTopic) {
+            alert("Please select a topic before posting.");
+            return;
+        }
+
         const newPost = {
             id: Date.now(),
             caption,
             text: postContent,
             media: media ? URL.createObjectURL(media) : null,
             mediaType: media?.type,
+            topic: selectedTopic,
         };
         setUserPosts([newPost, ...userPosts]);
         setPostContent("");
         setCaption("");
         setMedia(null);
+        setSelectedTopic("");
+        setSearchTopic("");
         setShowModal(false);
     };
 
     const toggleLike = (id) => {
-        setLikedPosts((prevLikes) => ({
-            ...prevLikes,
-            [id]: !prevLikes[id],
-        }));
+        setLikedPosts((prevLikes) => {
+            const newLikes = { ...prevLikes };
+            if (newLikes[id]) {
+                newLikes[id] = false;
+            } else {
+                newLikes[id] = true;
+            }
+            return newLikes;
+        });
     };
 
     const addComment = (postId, comment) => {
@@ -84,7 +110,11 @@ const ProfilePage = () => {
 
     const sharePost = (postId) => {
         const postLink = `https://yourapp.com/post/${postId}`;
-        prompt("Copy the post link:", postLink);  // Allows the user to copy the post link
+        prompt("Copy the post link:", postLink);
+        setShares((prevShares) => ({
+            ...prevShares,
+            [postId]: (prevShares[postId] || 0) + 1,
+        }));
     };
 
     return (
@@ -168,6 +198,33 @@ const ProfilePage = () => {
                             accept="image/*,video/*"
                             onChange={handleFileUpload}
                         />
+
+                        {/* Topic selection */}
+                        <div className="topic-selector">
+                            <input
+                                type="text"
+                                placeholder="Search or select a topic..."
+                                value={searchTopic}
+                                onChange={(e) => setSearchTopic(e.target.value)}
+                                className="input-box"
+                            />
+                            <div className="topic-list">
+                                {filteredHobbies.length > 0 ? (
+                                    filteredHobbies.map((hobby, index) => (
+                                        <div
+                                            key={index}
+                                            className={`topic-item ${selectedTopic === hobby ? "selected" : ""}`}
+                                            onClick={() => setSelectedTopic(hobby)}
+                                        >
+                                            {hobby}
+                                        </div>
+                                    ))
+                                ) : (
+                                    <div className="no-topics">No topics found.</div>
+                                )}
+                            </div>
+                        </div>
+
                         <div className="modal-buttons">
                             <button className="cancel" onClick={() => setShowModal(false)}>
                                 Cancel
@@ -195,6 +252,7 @@ const ProfilePage = () => {
                                         <source src={post.media} />
                                     </video>
                                 )}
+                                <p className="post-topic">#{post.topic}</p>
                                 <p className="post-caption">{post.caption}</p>
                                 <p className="post-text">{post.text}</p>
 
@@ -203,20 +261,22 @@ const ProfilePage = () => {
                                         className={`like-button ${likedPosts[post.id] ? "liked" : ""}`}
                                         onClick={() => toggleLike(post.id)}
                                     >
-                                        <i className="fas fa-heart"></i> Like
+                                        <i className="fas fa-heart"></i> Like ({likedPosts[post.id] ? 1 : 0})
                                     </button>
                                     <button
                                         className="comment-button"
                                         onClick={() => toggleCommentsVisibility(post.id)}
                                     >
-                                        <i className="fas fa-comment"></i> Comment
+                                        <i className="fas fa-comment"></i> Comment ({comments[post.id]?.length || 0})
                                     </button>
-                                    <button className="share-button" onClick={() => sharePost(post.id)}>
-                                        <i className="fas fa-share"></i> Share
+                                    <button
+                                        className="share-button"
+                                        onClick={() => sharePost(post.id)}
+                                    >
+                                        <i className="fas fa-share"></i> Share ({shares[post.id] || 0})
                                     </button>
                                 </div>
 
-                                {/* Comments Section */}
                                 {showComments[post.id] && (
                                     <div className="comments-section">
                                         {comments[post.id] && comments[post.id].map((comment, index) => (
@@ -239,11 +299,6 @@ const ProfilePage = () => {
                                             />
                                         </div>
                                     </div>
-                                )}
-
-                                {/* Display share count */}
-                                {shares[post.id] > 0 && (
-                                    <p className="share-count">{shares[post.id]} Shares</p>
                                 )}
                             </div>
                         ))

@@ -8,6 +8,9 @@
     color: white;
 }
 
+
+
+
 /* Navigation Bar */
 .community-nav {
     display: flex;
@@ -60,8 +63,9 @@
 
 /* Sidebar */
 .community-sidebar {
-    background: linear-gradient(to bottom, rgb(51, 49, 49), #293855);
-    width: 25%;
+    background: white;
+    width: 20%;
+    color: black;
     padding: 1rem;
 }
 
