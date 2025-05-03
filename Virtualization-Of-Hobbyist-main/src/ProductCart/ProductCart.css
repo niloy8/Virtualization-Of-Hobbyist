@@ -1,0 +1,146 @@
+/* Overall Page */
+body {
+    font-family: 'Arial', sans-serif;
+}
+
+/* Cart Container */
+.product-cart {
+    background-color: #000;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    justify-content: center;
+    min-height: 100vh;
+}
+
+/* Cart Title */
+.product-cart h1 {
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+/* Total Price Box */
+.total-price {
+    background-color: #98a0ad;
+    color: #000;
+    width: 200px;
+    padding: 10px 20px;
+    margin-top: 10px;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+/* Product List - Scrollable */
+.product-cart-list {
+    max-height: 350px;
+    overflow-y: auto;
+    margin-top: 30px;
+    width: 90%;
+    max-width: 500px;
+    background-color: #dfe1e6;
+    margin-bottom: 20px;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+/* Product Item */
+.product-item {
+    display: flex;
+    align-items: center;
+    background-color: #534f4f;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    border: none;
+
+    transition: transform 0.2s ease-in-out;
+}
+
+.product-item:hover {
+    transform: scale(1.02);
+}
+
+/* Product Image */
+.product-item img {
+    width: 50px;
+    height: 50px;
+    border-radius: 5px;
+    object-fit: cover;
+}
+
+/* Product Name and Price */
+.product-item div {
+    flex: 1;
+    padding-left: 10px;
+}
+
+/* Remove Button */
+.remove-btn {
+    background-color: #1e3a8a;
+    color: white;
+    padding: 6px 12px;
+    border: none;
+    border-radius: 5px;
+    font-size: 0.9rem;
+    transition: background 0.3s;
+    cursor: pointer;
+}
+
+.remove-btn:hover {
+    background-color: #162b65;
+}
+
+/* Quantity Controls */
+.quantity-btn {
+    background-color: #d1d5db;
+    color: black;
+    padding: 6px 12px;
+    border-radius: 5px;
+    border: none;
+    font-size: 1rem;
+    transition: background 0.3s;
+    cursor: pointer;
+}
+
+.quantity-btn:hover {
+    background-color: #b0b3b8;
+}
+
+/* Checkout Button */
+.checkout-btn {
+    background-color: #d1d5db;
+    color: black;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-weight: bold;
+    border: none;
+    transition: background 0.3s;
+    cursor: pointer;
+}
+
+.checkout-btn:hover {
+    background-color: #b0b3b8;
+}
+
+/* Chat Icon */
+.chat-icon {
+    position: fixed;
+    bottom: 16px;
+    right: 16px;
+    cursor: pointer;
+    transition: transform 0.3s;
+}
+
+.chat-icon:hover {
+    transform: scale(1.1);
+}
+
+.product-quantity {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}

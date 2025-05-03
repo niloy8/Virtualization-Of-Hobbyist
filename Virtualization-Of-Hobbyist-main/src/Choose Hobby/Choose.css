@@ -1,0 +1,98 @@
+.container-choose {
+    width: 100%;
+    max-width: 500px;
+}
+
+.card {
+    padding-left: 50px;
+    padding-right: 50px;
+    background-color: #2d3748;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+
+
+.content-choose {
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+}
+
+.content-choose .search-interest {
+    display: flex;
+    align-items: center;
+}
+
+.content-choose .search .search-bar {
+    position: relative;
+    margin-bottom: 16px;
+}
+
+.search-bar input {
+    width: 100%;
+    padding: 10px 14px;
+
+    background-color: #1a202c;
+    border: none;
+    border-radius: 20px;
+    color: white;
+    outline: none;
+}
+
+.search-icon {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: white;
+}
+
+.interest-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content-choose: center;
+    background-color: #cbd5e0;
+    padding: 12px;
+    border-radius: 8px;
+}
+
+.interest {
+    background-color: #2a4365;
+    color: white;
+    padding: 6px 12px;
+    border-radius: 16px;
+}
+
+.button-container {
+    display: flex;
+    justify-content-choose: flex-end;
+    margin: 16px;
+}
+
+.next-button {
+    background-color: #1a202c;
+    color: white;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+.next-button:hover {
+    background-color: #060708;
+}
+
+.interest.selected {
+    background-color: #63b3ed;
+    /* light blue */
+    color: #1a202c;
+    /* dark text */
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.interest {
+    cursor: pointer;
+}

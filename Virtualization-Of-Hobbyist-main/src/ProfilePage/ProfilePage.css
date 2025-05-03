@@ -1,0 +1,503 @@
+/* ProfilePage.css */
+
+.profile-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    background-color: #f0f2f5;
+}
+
+.profile-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    background: white;
+    padding: 15px;
+    border-radius: 12px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.profile-picture {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+    cursor: pointer;
+}
+
+.profile-name {
+    margin: 0;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.profile-description {
+    margin: 5px 0 0;
+    color: #555;
+    cursor: pointer;
+}
+
+.input-box {
+    padding: 6px 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    outline: none;
+    font-size: 14px;
+    width: 100%;
+}
+
+.profile-action {
+    margin-left: auto;
+    text-align: center;
+}
+
+.icon-plus {
+    font-size: 24px;
+    color: #007bff;
+    cursor: pointer;
+}
+
+.profile-tags {
+    margin-bottom: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.tag {
+    background: #e4e6eb;
+    padding: 6px 12px;
+    border-radius: 999px;
+    font-size: 12px;
+}
+
+.profile-thoughts {
+    background: white;
+    padding: 12px 15px;
+    border-radius: 12px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    cursor: pointer;
+}
+
+.feed-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.no-posts {
+    text-align: center;
+    color: #888;
+    font-size: 14px;
+}
+
+.post-card {
+    background: white;
+    border-radius: 12px;
+    padding: 15px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.post-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.post-profile-pic {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 10px;
+}
+
+.post-username {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.post-time {
+    font-size: 12px;
+    color: #777;
+    margin-top: 2px;
+}
+
+.post-media {
+    width: 100%;
+    max-height: 400px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin: 10px 0;
+}
+
+.post-caption,
+.post-text {
+    margin: 6px 0;
+    font-size: 14px;
+    color: #e6e6e6;
+}
+
+.post-actions {
+    display: flex;
+    justify-content: space-around;
+    border-top: 1px solid #ddd;
+    padding-top: 10px;
+    margin-top: 10px;
+}
+
+.post-actions button {
+    background: none;
+    border: none;
+    color: #555;
+    font-size: 14px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.like-button.liked {
+    color: #e0245e;
+}
+
+.comments-section {
+    margin-top: 10px;
+    border-top: 1px solid #eee;
+    padding-top: 10px;
+}
+
+.comment {
+    padding: 5px 0;
+    font-size: 14px;
+    color: #444;
+}
+
+.comment-author {
+    font-weight: 600;
+    color: #222;
+}
+
+.comment-input-container {
+    margin-top: 10px;
+}
+
+.comment-input {
+    width: 100%;
+    padding: 8px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    outline: none;
+}
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 400px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.modal textarea,
+.modal input[type="text"] {
+    width: 100%;
+    padding: 8px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+}
+
+.modal input[type="file"] {
+    margin-top: 8px;
+}
+
+.modal-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.modal-buttons button {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.modal-buttons .cancel {
+    background: #ccc;
+    color: #333;
+}
+
+.modal-buttons .post {
+    background: #007bff;
+    color: white;
+}
+
+/* ProfilePage.css */
+
+html,
+body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    background-color: white;
+    /* White background for full page */
+    overflow-x: hidden;
+}
+
+.profile-container {
+    min-height: 100vh;
+    min-width: 170vh;
+    /* Full screen height */
+    margin: 0 auto;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    background-color: white;
+    /* Full white background */
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+}
+
+.feed-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    overflow-y: auto;
+    /* Scrollable if content exceeds screen */
+    flex-grow: 1;
+    /* Pushes to fill available space */
+}
+
+/* All existing styles remain the same, EXCEPT post-card if needed */
+
+.post-card {
+    background-color: white;
+    border-radius: 12px;
+    padding: 15px;
+    gap: 30px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    /* Light shadow */
+}
+
+html,
+body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    background-color: white;
+    overflow: auto;
+
+    /* Enable scrolling */
+}
+
+.profile-container {
+    min-height: 100vh;
+    /* Ensure it takes at least the full height */
+    display: flex;
+    color: black;
+    flex-direction: column;
+    padding: 20px;
+    box-sizing: border-box;
+    overflow-y: auto;
+    /* Enable vertical scrolling */
+}
+
+.feed-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    overflow-y: auto;
+    background-color: white;
+    /* Allow scrolling if content overflows */
+    flex-grow: 1;
+    /* Make sure it takes up remaining space */
+}
+
+.post-feed {
+    background-color: white;
+}
+
+.post-media {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    /* Ensures the whole image shows */
+    max-height: 500px;
+    /* Optional: prevent giant images */
+    display: block;
+    margin: 0 auto;
+    border-radius: 8px;
+    background-color: #ddd;
+}
+
+
+/* Modal - Topic Selection */
+.topic-selector {
+    margin-bottom: 1rem;
+}
+
+.topic-selector input {
+    width: 100%;
+    padding: 0.5rem;
+    margin-bottom: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+.topic-list {
+    max-height: 200px;
+    overflow-y: auto;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: #f9f9f9;
+}
+
+.topic-item {
+    padding: 0.75rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.topic-item:hover {
+    background-color: #f1f1f1;
+}
+
+.topic-item.selected {
+    background-color: #007bff;
+    color: white;
+}
+
+.no-topics {
+    text-align: center;
+    padding: 1rem;
+    color: #888;
+}
+
+/* Post Feed - Topic Styling */
+.post-topic {
+    display: inline-block;
+    background-color: #007bff;
+    color: white;
+    padding: 0.25rem 0.5rem;
+    border-radius: 16px;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+    transition: background-color 0.3s ease;
+}
+
+.post-topic:hover {
+    background-color: #0056b3;
+}
+
+/* Post Feed - General Styling */
+.post-card {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.post-media {
+    width: 100%;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+}
+
+.post-caption {
+    font-weight: bold;
+    margin-bottom: 1rem;
+}
+
+.post-text {
+    font-size: 1rem;
+    line-height: 1.5;
+    margin-bottom: 1rem;
+}
+
+.post-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 1rem;
+}
+
+.like-button,
+.comment-button,
+.share-button {
+    background-color: transparent;
+    border: none;
+    color: #007bff;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+.like-button.liked {
+    color: #ff6b6b;
+}
+
+.like-button:hover,
+.comment-button:hover,
+.share-button:hover {
+    color: #0056b3;
+}
+
+/* Comment Section Styling */
+.comments-section {
+    margin-top: 1rem;
+    border-top: 1px solid #f1f1f1;
+    padding-top: 1rem;
+
+}
+
+.comment {
+    margin-bottom: 0.75rem;
+    color: white;
+}
+
+.comment-author {
+    font-weight: bold;
+    color: white;
+    margin-right: 0.5rem;
+}
+
+.comment-input-container {
+    margin-top: 1rem;
+}
+
+.comment-input {
+    width: 95%;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+    background-color: #f9f9f9;
+}
