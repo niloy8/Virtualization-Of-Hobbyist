@@ -35,7 +35,7 @@ const Choose = () => {
         }
 
         try {
-            const res = await fetch("http://localhost:5000/users/hobbies", {
+            const res = await fetch("http://localhost:5000/users", {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",

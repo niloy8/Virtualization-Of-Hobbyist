@@ -32,8 +32,9 @@ async function run() {
         const usersCollection = client.db("homiee").collection("users");
 
         // 🔐 Signup Route with Validations
+        // 🔐 Signup Route with Hobbies
         app.post("/signup", async (req, res) => {
-            const { firstName, lastName, userName, email, password } = req.body;
+            const { firstName, lastName, userName, email, password, hobbies } = req.body;
 
             if (!firstName || !lastName || !userName || !email || !password) {
                 return res.status(400).json({ error: "All fields are required!" });
@@ -58,11 +59,20 @@ async function run() {
             }
 
             const hashedPassword = await bcrypt.hash(password, 10);
-            await usersCollection.insertOne({ firstName, lastName, userName, email, password: hashedPassword });
+            await usersCollection.insertOne({
+                firstName,
+                lastName,
+                userName,
+                email,
+                password: hashedPassword,
+                hobbies: hobbies || [] // Store hobbies if provided
+            });
 
             res.status(201).json({ message: "Signup successful!" });
         });
 
+
+        // 🔐 Login Route
         // 🔐 Login Route
         app.post("/login", async (req, res) => {
             const { email, password } = req.body;
@@ -82,40 +92,40 @@ async function run() {
             }
 
             const token = jwt.sign({ userId: user._id, email: user.email }, JWT_SECRET, { expiresIn: "1h" });
-            res.json({ message: "Login successful!", token, email: user.email, userName: user.userName });
-
-
-
+            res.json({
+                message: "Login successful!",
+                token,
+                email: user.email,
+                userName: user.userName,
+                hobbies: user.hobbies // Send the hobbies with the response
+            });
         });
 
-        app.put("/users/hobbies", async (req, res) => {
-            let { email, hobbies } = req.body;
+        // 🔄 Update hobbies using PUT /users
+        app.put("/users", async (req, res) => {
+            const { email, hobbies } = req.body;
 
             if (!email || !Array.isArray(hobbies)) {
-                return res.status(400).json({ error: "Email and hobbies are required." });
+                return res.status(400).json({ error: "Email and hobbies array are required." });
             }
 
-            email = email.trim().toLowerCase(); // normalize email
-
-            const user = await client.db("homiee").collection("users").findOne({ email });
-            if (!user) {
-                return res.status(404).json({ error: "User not found." });
-            }
-
-            const result = await client
-                .db("homiee")
-                .collection("users")
-                .updateOne(
+            try {
+                const result = await usersCollection.updateOne(
                     { email },
                     { $set: { hobbies } }
                 );
 
-            if (result.modifiedCount === 0) {
-                return res.status(400).json({ error: "Failed to update hobbies." });
-            }
+                if (result.modifiedCount === 0) {
+                    return res.status(404).json({ error: "User not found or hobbies unchanged." });
+                }
 
-            res.json({ message: "Hobbies updated successfully!" });
+                res.json({ message: "Hobbies updated successfully!" });
+            } catch (error) {
+                console.error("Error updating hobbies:", error);
+                res.status(500).json({ error: "Internal server error." });
+            }
         });
+
 
         // For testing - get all users
         app.get("/users", async (req, res) => {

@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import "./ProfilePage.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlusCircle } from "@fortawesome/free-solid-svg-icons";
@@ -20,6 +20,9 @@ const ProfilePage = () => {
     const [showComments, setShowComments] = useState({});
     const [selectedTopic, setSelectedTopic] = useState("");
     const [searchTopic, setSearchTopic] = useState("");
+    const [userName, setUserName] = useState("");
+    const [userHobbies, setUserHobbies] = useState([]);
+
 
     const fileInputRef = useRef();
 
@@ -28,6 +31,37 @@ const ProfilePage = () => {
         "Music", "Painting", "Fitness", "Cooking", "Blogging",
         "Personal"
     ];
+
+    useEffect(() => {
+        const fetchUserData = async () => {
+            const token = localStorage.getItem("token");
+            if (!token) return;
+
+            try {
+                const response = await fetch("http://localhost:5000/users", {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${token}`,
+                    },
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    setUserName(data.name || "Unnamed User"); // assuming 'name' is a field in your user object
+                    setUserHobbies(data.hobbies || []); // assuming 'hobbies' is an array
+                } else {
+                    console.error("Failed to fetch user data:", data.error);
+                }
+            } catch (err) {
+                console.error("Error fetching user:", err);
+            }
+        };
+
+        fetchUserData();
+    }, []);
+
 
     const filteredHobbies = hobbies.filter((hobby) =>
         hobby.toLowerCase().includes(searchTopic.toLowerCase())
@@ -134,7 +168,8 @@ const ProfilePage = () => {
                     onChange={handleImageChange}
                 />
                 <div>
-                    <h1 className="profile-name">Name</h1>
+                    <h1 className="profile-name">{userName}</h1>
+
                     {isEditingDesc ? (
                         <input
                             value={description}
@@ -161,11 +196,15 @@ const ProfilePage = () => {
             </div>
 
             <div className="profile-tags">
-                <span className="tag">Places</span>
-                <span className="tag">Video editing</span>
-                <span className="tag">DIY crafting</span>
-                <span className="tag">Yoga</span>
+                {userHobbies.length > 0 ? (
+                    userHobbies.map((hobby, index) => (
+                        <span key={index} className="tag">{hobby}</span>
+                    ))
+                ) : (
+                    <span className="tag">No hobbies selected</span>
+                )}
             </div>
+
 
             <div className="profile-thoughts">
                 <div className="thoughts-input" onClick={() => setShowModal(true)}>
