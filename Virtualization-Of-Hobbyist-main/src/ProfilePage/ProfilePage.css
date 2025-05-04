@@ -45,7 +45,7 @@
     border-radius: 8px;
     outline: none;
     font-size: 14px;
-    width: 100%;
+    width: 95%;
 }
 
 .profile-action {
@@ -500,4 +500,60 @@ body {
     border-radius: 4px;
     font-size: 1rem;
     background-color: #f9f9f9;
+}
+
+
+
+/*big Profile Picture*/
+.image-preview-container {
+    position: relative;
+    display: inline-block;
+}
+
+.profile-picture {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+/* Hidden by default */
+.fullscreen-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    /* Show it's clickable */
+}
+
+/* Center the image inside overlay */
+.fullscreen-image {
+    max-width: 50vw;
+    max-height: 50vh;
+    border-radius: 12px;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.8);
+}
+
+/* Show overlay on hover */
+.image-preview-container:hover .fullscreen-overlay {
+    display: flex;
+}
+
+.fullscreen-overlay {
+    pointer-events: none;
+    /* Disable pointer events for the overlay background */
+}
+
+.fullscreen-image {
+    pointer-events: auto;
+    /* Re-enable pointer events only on the image */
+    cursor: pointer;
 }

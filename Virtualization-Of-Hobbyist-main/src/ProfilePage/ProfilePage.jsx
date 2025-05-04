@@ -20,11 +20,16 @@ const ProfilePage = () => {
     const [showComments, setShowComments] = useState({});
     const [selectedTopic, setSelectedTopic] = useState("");
     const [searchTopic, setSearchTopic] = useState("");
-    const [userName, setUserName] = useState("");
     const [userHobbies, setUserHobbies] = useState([]);
+    const [userName, setUserName] = useState("");
 
-
+    const email = localStorage.getItem("email");
+    const token = localStorage.getItem("token");
     const fileInputRef = useRef();
+
+
+
+
 
     const hobbies = [
         "DIY Crafting", "Yoga", "Traveling", "Photography", "Gaming",
@@ -33,39 +38,56 @@ const ProfilePage = () => {
     ];
 
     useEffect(() => {
-        const fetchUserData = async () => {
-            const token = localStorage.getItem("token");
-            if (!token) return;
-
+        const fetchUser = async () => {
             try {
-                const response = await fetch("http://localhost:5000/users", {
-                    method: "GET",
-                    headers: {
-                        "Content-Type": "application/json",
-                        "Authorization": `Bearer ${token}`,
-                    },
+                const res = await fetch(`http://localhost:5000/users/${email}`, {
+                    headers: { Authorization: `Bearer ${token}` }
                 });
 
-                const data = await response.json();
-
-                if (response.ok) {
-                    setUserName(data.name || "Unnamed User"); // assuming 'name' is a field in your user object
-                    setUserHobbies(data.hobbies || []); // assuming 'hobbies' is an array
-                } else {
-                    console.error("Failed to fetch user data:", data.error);
+                const data = await res.json();
+                if (res.ok) {
+                    setUserName(data.firstName);
+                    setProfileImage(data.profileImage || "https://placehold.co/50x50");
+                    setDescription(data.description || "Click to add description");
+                    setUserHobbies(data.hobbies);
                 }
             } catch (err) {
                 console.error("Error fetching user:", err);
             }
         };
 
-        fetchUserData();
-    }, []);
-
+        if (email && token) {
+            fetchUser();
+        }
+    }, [email, token]);
 
     const filteredHobbies = hobbies.filter((hobby) =>
         hobby.toLowerCase().includes(searchTopic.toLowerCase())
     );
+
+    const updateProfile = async (newDescription, newImage) => {
+        const formData = new FormData();
+        formData.append("email", email);
+        formData.append("description", newDescription);
+        if (newImage) formData.append("profileImage", newImage);
+
+        try {
+            const res = await fetch("http://localhost:5000/users", {
+                method: "PUT",
+                headers: { Authorization: `Bearer ${token}` },
+                body: formData,
+            });
+
+            const data = await res.json();
+            if (res.ok) {
+                console.log("Profile updated successfully:", data);
+            } else {
+                console.error("Update failed:", data.error);
+            }
+        } catch (error) {
+            console.error("Error updating profile:", error);
+        }
+    };
 
     const handleImageChange = (e) => {
         const file = e.target.files[0];
@@ -73,14 +95,21 @@ const ProfilePage = () => {
             const reader = new FileReader();
             reader.onloadend = () => {
                 setProfileImage(reader.result);
+                updateProfile(description, file);
             };
             reader.readAsDataURL(file);
         }
     };
 
+
+
     const handleDescriptionClick = () => setIsEditingDesc(true);
     const handleDescriptionChange = (e) => setDescription(e.target.value);
-    const handleDescriptionBlur = () => setIsEditingDesc(false);
+    const handleDescriptionBlur = () => {
+        setIsEditingDesc(false);
+        updateProfile(description, null);
+    };
+
 
     const handleFileUpload = (e) => setMedia(e.target.files[0]);
 
@@ -108,68 +137,73 @@ const ProfilePage = () => {
     };
 
     const toggleLike = (id) => {
-        setLikedPosts((prevLikes) => {
-            const newLikes = { ...prevLikes };
-            if (newLikes[id]) {
-                newLikes[id] = false;
-            } else {
-                newLikes[id] = true;
-            }
-            return newLikes;
-        });
+        setLikedPosts((prev) => ({ ...prev, [id]: !prev[id] }));
     };
 
     const addComment = (postId, comment) => {
-        setComments((prevComments) => {
-            const postComments = prevComments[postId] || [];
-            return {
-                ...prevComments,
-                [postId]: [...postComments, comment],
-            };
-        });
+        setComments((prev) => ({
+            ...prev,
+            [postId]: [...(prev[postId] || []), comment],
+        }));
     };
 
     const handleCommentSubmit = (postId, commentText) => {
-        if (commentText.trim() !== "") {
+        if (commentText.trim()) {
             addComment(postId, commentText);
         }
     };
 
     const toggleCommentsVisibility = (postId) => {
-        setShowComments((prevState) => ({
-            ...prevState,
-            [postId]: !prevState[postId],
+        setShowComments((prev) => ({
+            ...prev,
+            [postId]: !prev[postId],
         }));
     };
 
     const sharePost = (postId) => {
         const postLink = `https://yourapp.com/post/${postId}`;
         prompt("Copy the post link:", postLink);
-        setShares((prevShares) => ({
-            ...prevShares,
-            [postId]: (prevShares[postId] || 0) + 1,
+        setShares((prev) => ({
+            ...prev,
+            [postId]: (prev[postId] || 0) + 1,
         }));
     };
 
     return (
         <div className="profile-container">
             <div className="profile-header">
-                <img
-                    src={profileImage}
-                    alt="Profile"
-                    className="profile-picture"
-                    onClick={() => fileInputRef.current.click()}
-                />
-                <input
-                    type="file"
-                    accept="image/*"
-                    ref={fileInputRef}
-                    style={{ display: "none" }}
-                    onChange={handleImageChange}
-                />
+                <div className="image-preview-container">
+                    <img
+                        src={profileImage}
+                        alt="Profile"
+                        className="profile-picture"
+                        onClick={() => fileInputRef.current.click()}
+                    />
+                    <input
+                        type="file"
+                        accept="image/*"
+                        ref={fileInputRef}
+                        style={{ display: "none" }}
+                        onChange={handleImageChange}
+                    />
+
+                    {/* Fullscreen preview on hover, only image is clickable */}
+                    <div className="fullscreen-overlay">
+                        <img
+                            src={profileImage}
+                            alt="Profile Full"
+                            className="fullscreen-image"
+                            onClick={(e) => {
+                                e.stopPropagation(); // prevent clicks from bubbling to overlay
+                                fileInputRef.current.click();
+                            }}
+                        />
+                    </div>
+                </div>
+
+
                 <div>
                     <h1 className="profile-name">{userName}</h1>
-
                     {isEditingDesc ? (
                         <input
                             value={description}
@@ -179,20 +213,16 @@ const ProfilePage = () => {
                             className="input-box"
                         />
                     ) : (
-                        <p
-                            className="profile-description"
-                            onClick={handleDescriptionClick}
-                        >
+                        <p className="profile-description" onClick={() => setIsEditingDesc(true)}>
                             {description}
                         </p>
                     )}
                 </div>
-                <div className="profile-action">
-                    <NavLink to="/community-page/journal">
-                        <FontAwesomeIcon icon={faPlusCircle} className="icon-plus" />
-                    </NavLink>
-                    <p>Create Journal</p>
-                </div>
+                <NavLink to="/community-page/journal">
+                    <FontAwesomeIcon icon={faPlusCircle} className="icon-plus" />
+
+                </NavLink>
+                <h5>Create Journal</h5>
             </div>
 
             <div className="profile-tags">
@@ -204,7 +234,6 @@ const ProfilePage = () => {
                     <span className="tag">No hobbies selected</span>
                 )}
             </div>
-
 
             <div className="profile-thoughts">
                 <div className="thoughts-input" onClick={() => setShowModal(true)}>
@@ -237,8 +266,6 @@ const ProfilePage = () => {
                             accept="image/*,video/*"
                             onChange={handleFileUpload}
                         />
-
-                        {/* Topic selection */}
                         <div className="topic-selector">
                             <input
                                 type="text"
@@ -263,14 +290,9 @@ const ProfilePage = () => {
                                 )}
                             </div>
                         </div>
-
                         <div className="modal-buttons">
-                            <button className="cancel" onClick={() => setShowModal(false)}>
-                                Cancel
-                            </button>
-                            <button className="post" onClick={handlePostSubmit}>
-                                Post
-                            </button>
+                            <button className="cancel" onClick={() => setShowModal(false)}>Cancel</button>
+                            <button className="post" onClick={handlePostSubmit}>Post</button>
                         </div>
                     </div>
                 </div>
@@ -317,26 +339,23 @@ const ProfilePage = () => {
                                 </div>
 
                                 {showComments[post.id] && (
-                                    <div className="comments-section">
-                                        {comments[post.id] && comments[post.id].map((comment, index) => (
-                                            <div key={index} className="comment">
-                                                <span className="comment-author">User</span>: <span className="comment-text">{comment}</span>
-                                            </div>
-                                        ))}
-                                        <div className="comment-input-container">
-                                            <input
-                                                id={`comment-input-${post.id}`}
-                                                type="text"
-                                                placeholder="Write a comment..."
-                                                className="comment-input"
-                                                onKeyDown={(e) => {
-                                                    if (e.key === "Enter") {
-                                                        handleCommentSubmit(post.id, e.target.value);
-                                                        e.target.value = "";
-                                                    }
-                                                }}
-                                            />
+                                    <div className="comment-section">
+                                        <div className="comment-list">
+                                            {comments[post.id]?.map((comment, index) => (
+                                                <div key={index} className="comment">{comment}</div>
+                                            ))}
                                         </div>
+                                        <input
+                                            type="text"
+                                            placeholder="Add a comment..."
+                                            className="input-box"
+                                            onKeyDown={(e) => {
+                                                if (e.key === "Enter") {
+                                                    handleCommentSubmit(post.id, e.target.value);
+                                                    e.target.value = "";
+                                                }
+                                            }}
+                                        />
                                     </div>
                                 )}
                             </div>

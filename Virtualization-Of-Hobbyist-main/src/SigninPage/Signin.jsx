@@ -28,11 +28,11 @@ const Signin = () => {
             localStorage.setItem("email", data.email);
 
             // Fetch the user's details from the /users endpoint
-            const userResponse = await fetch("http://localhost:5000/users", {
+            const userResponse = await fetch(`http://localhost:5000/users/${data.email}`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
-                    "Authorization": `Bearer ${data.token}`, // Pass the token in the header
+                    "Authorization": `Bearer ${data.token}`,
                 },
             });
 

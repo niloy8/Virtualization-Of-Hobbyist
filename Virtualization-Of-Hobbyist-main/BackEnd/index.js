@@ -5,6 +5,8 @@ const cors = require("cors");
 const { MongoClient, ServerApiVersion } = require("mongodb");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const multer = require("multer");
+const path = require("path");
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -12,11 +14,22 @@ const JWT_SECRET = process.env.JWT_SECRET || "your-super-secret-key";
 
 app.use(cors());
 app.use(express.json());
+app.use("/uploads", express.static("uploads")); // Serve uploaded images
+
 
 const uri = process.env.MONGODB_URI || "mongodb+srv://niloybhuiyan321:9nwzefG3T98zaZBI@cluster0.gqjzz.mongodb.net/?appName=Cluster0";
 const client = new MongoClient(uri, {
     serverApi: { version: ServerApiVersion.v1, strict: true, deprecationErrors: true }
 });
+
+// Multer setup for image uploads
+const storage = multer.diskStorage({
+    destination: "./uploads/",
+    filename: (req, file, cb) => {
+        cb(null, file.fieldname + "_" + Date.now() + path.extname(file.originalname));
+    }
+});
+const upload = multer({ storage });
 
 // Helper function for email format validation
 const isValidEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
@@ -65,8 +78,11 @@ async function run() {
                 userName,
                 email,
                 password: hashedPassword,
-                hobbies: hobbies || [] // Store hobbies if provided
+                hobbies: hobbies || [],
+                description: "",        // Default empty description
+                profileImage: ""        // Default empty profile image
             });
+
 
             res.status(201).json({ message: "Signup successful!" });
         });
@@ -100,31 +116,61 @@ async function run() {
                 hobbies: user.hobbies // Send the hobbies with the response
             });
         });
+        // ✅ Get user by email
+        app.get("/users/:email", async (req, res) => {
+            const { email } = req.params;
+
+            try {
+                const user = await usersCollection.findOne({ email });
+                if (!user) {
+                    return res.status(404).json({ error: "User not found" });
+                }
+
+                res.json(user);
+            } catch (error) {
+                console.error("Error fetching user:", error);
+                res.status(500).json({ error: "Internal server error" });
+            }
+        });
 
         // 🔄 Update hobbies using PUT /users
-        app.put("/users", async (req, res) => {
-            const { email, hobbies } = req.body;
+        app.put("/users", upload.single("profileImage"), async (req, res) => {
+            const { email, description, hobbies } = req.body;
+            let profileImage = req.file ? `http://localhost:5000/uploads/${req.file.filename}` : undefined;
 
-            if (!email || !Array.isArray(hobbies)) {
-                return res.status(400).json({ error: "Email and hobbies array are required." });
+
+
+            if (!email) {
+                return res.status(400).json({ error: "Email is required." });
+            }
+
+            const updateFields = {};
+            if (description) updateFields.description = description;
+            if (profileImage) updateFields.profileImage = profileImage;
+            if (hobbies) updateFields.hobbies = hobbies;
+
+            if (Object.keys(updateFields).length === 0) {
+                return res.status(400).json({ error: "No valid fields to update." });
             }
 
             try {
                 const result = await usersCollection.updateOne(
                     { email },
-                    { $set: { hobbies } }
+                    { $set: updateFields }
                 );
 
                 if (result.modifiedCount === 0) {
-                    return res.status(404).json({ error: "User not found or hobbies unchanged." });
+                    return res.status(404).json({ error: "User not found or nothing changed." });
                 }
 
-                res.json({ message: "Hobbies updated successfully!" });
+                res.json({ message: "User updated successfully!", updated: updateFields });
             } catch (error) {
-                console.error("Error updating hobbies:", error);
+                console.error("Error updating user:", error);
                 res.status(500).json({ error: "Internal server error." });
             }
         });
+
+
 
 
         // For testing - get all users
