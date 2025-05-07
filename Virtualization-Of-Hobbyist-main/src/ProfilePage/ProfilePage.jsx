@@ -2,7 +2,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import "./ProfilePage.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlusCircle } from "@fortawesome/free-solid-svg-icons";
+import { faPlusCircle, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { NavLink } from "react-router-dom";
 
 const ProfilePage = () => {
@@ -27,10 +27,6 @@ const ProfilePage = () => {
     const token = localStorage.getItem("token");
     const fileInputRef = useRef();
 
-
-
-
-
     const hobbies = [
         "DIY Crafting", "Yoga", "Traveling", "Photography", "Gaming",
         "Music", "Painting", "Fitness", "Cooking", "Blogging",
@@ -49,7 +45,28 @@ const ProfilePage = () => {
                     setUserName(data.firstName);
                     setProfileImage(data.profileImage || "https://placehold.co/50x50");
                     setDescription(data.description || "Click to add description");
-                    setUserHobbies(data.hobbies);
+                    setUserHobbies(data.hobbies || []);
+
+                    if (data.posts) {
+                        const sortedPosts = [...data.posts].sort((a, b) =>
+                            new Date(b.createdAt) - new Date(a.createdAt)
+                        );
+                        setUserPosts(sortedPosts);
+
+                        const initialLikes = {};
+                        const initialComments = {};
+                        const initialShares = {};
+
+                        sortedPosts.forEach(post => {
+                            initialLikes[post.id] = post.likes || 0;
+                            initialComments[post.id] = post.comments || [];
+                            initialShares[post.id] = post.shares || 0;
+                        });
+
+                        setLikedPosts(initialLikes);
+                        setComments(initialComments);
+                        setShares(initialShares);
+                    }
                 }
             } catch (err) {
                 console.error("Error fetching user:", err);
@@ -80,6 +97,7 @@ const ProfilePage = () => {
 
             const data = await res.json();
             if (res.ok) {
+                setProfileImage(data.updated.profileImageUrl || profileImage);
                 console.log("Profile updated successfully:", data);
             } else {
                 console.error("Update failed:", data.error);
@@ -101,8 +119,6 @@ const ProfilePage = () => {
         }
     };
 
-
-
     const handleDescriptionClick = () => setIsEditingDesc(true);
     const handleDescriptionChange = (e) => setDescription(e.target.value);
     const handleDescriptionBlur = () => {
@@ -110,10 +126,9 @@ const ProfilePage = () => {
         updateProfile(description, null);
     };
 
-
     const handleFileUpload = (e) => setMedia(e.target.files[0]);
 
-    const handlePostSubmit = () => {
+    const handlePostSubmit = async () => {
         if (!selectedTopic) {
             alert("Please select a topic before posting.");
             return;
@@ -123,28 +138,126 @@ const ProfilePage = () => {
             id: Date.now(),
             caption,
             text: postContent,
-            media: media ? URL.createObjectURL(media) : null,
             mediaType: media?.type,
             topic: selectedTopic,
+            likes: 0,
+            comments: [],
+            shares: 0,
+            createdAt: new Date().toISOString()
         };
-        setUserPosts([newPost, ...userPosts]);
-        setPostContent("");
-        setCaption("");
-        setMedia(null);
-        setSelectedTopic("");
-        setSearchTopic("");
-        setShowModal(false);
+
+        try {
+            const formData = new FormData();
+            formData.append("email", email);
+            formData.append("post", JSON.stringify(newPost));
+            if (media) {
+                formData.append("media", media);
+            }
+
+            const res = await fetch("http://localhost:5000/users", {
+                method: "PUT",
+                headers: { Authorization: `Bearer ${token}` },
+                body: formData
+            });
+
+            if (res.ok) {
+                const responseData = await res.json();
+                const savedPost = {
+                    ...newPost,
+                    media: responseData.updated.mediaUrl || null
+                };
+
+                setUserPosts(prev => [savedPost, ...prev]);
+                setLikedPosts(prev => ({ ...prev, [savedPost.id]: false }));
+                setComments(prev => ({ ...prev, [savedPost.id]: [] }));
+                setShares(prev => ({ ...prev, [savedPost.id]: 0 }));
+
+                setPostContent("");
+                setCaption("");
+                setMedia(null);
+                setSelectedTopic("");
+                setSearchTopic("");
+                setShowModal(false);
+            }
+        } catch (err) {
+            console.error("Error saving post:", err);
+        }
     };
 
-    const toggleLike = (id) => {
-        setLikedPosts((prev) => ({ ...prev, [id]: !prev[id] }));
+    const deletePost = async (postId) => {
+        try {
+            const res = await fetch(`http://localhost:5000/users/${email}/posts/${postId}`, {
+                method: "DELETE",
+                headers: { Authorization: `Bearer ${token}` }
+            });
+
+            if (res.ok) {
+                setUserPosts(prev => prev.filter(post => post.id !== parseInt(postId)));
+            }
+        } catch (err) {
+            console.error("Error deleting post:", err);
+        }
     };
 
-    const addComment = (postId, comment) => {
-        setComments((prev) => ({
-            ...prev,
-            [postId]: [...(prev[postId] || []), comment],
-        }));
+    const toggleLike = async (id) => {
+        const newLikedStatus = !likedPosts[id];
+        setLikedPosts(prev => ({ ...prev, [id]: newLikedStatus }));
+
+        try {
+            await fetch("http://localhost:5000/users", {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`
+                },
+                body: JSON.stringify({
+                    email,
+                    postId: id,
+                    like: newLikedStatus
+                })
+            });
+        } catch (err) {
+            console.error("Error updating like:", err);
+            // Revert if error
+            setLikedPosts(prev => ({ ...prev, [id]: !newLikedStatus }));
+        }
+    };
+
+    const addComment = async (postId, commentText) => {
+        const comment = {
+            id: Date.now(),
+            user: userName,
+            text: commentText,
+            timestamp: new Date().toISOString()
+        };
+
+        const newComments = {
+            ...comments,
+            [postId]: [...(comments[postId] || []), comment]
+        };
+        setComments(newComments);
+
+        try {
+            await fetch("http://localhost:5000/users", {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`
+                },
+                body: JSON.stringify({
+                    email,
+                    postId,
+                    comment
+                })
+            });
+        } catch (err) {
+            console.error("Error saving comment:", err);
+            // Revert if error
+            setComments(prev => ({
+                ...prev,
+                [postId]: prev[postId].filter(c => c.id !== comment.id)
+            }));
+        }
     };
 
     const handleCommentSubmit = (postId, commentText) => {
@@ -161,14 +274,18 @@ const ProfilePage = () => {
     };
 
     const sharePost = (postId) => {
-        const postLink = `https://yourapp.com/post/${postId}`;
-        prompt("Copy the post link:", postLink);
+        const postLink = `${window.location.origin}/post/${postId}`;
+        navigator.clipboard.writeText(postLink).then(() => {
+            alert("Post link copied to clipboard!");
+        }).catch(() => {
+            prompt("Copy this link to share:", postLink);
+        });
+
         setShares((prev) => ({
             ...prev,
             [postId]: (prev[postId] || 0) + 1,
         }));
     };
-
     return (
         <div className="profile-container">
             <div className="profile-header">
@@ -187,20 +304,18 @@ const ProfilePage = () => {
                         onChange={handleImageChange}
                     />
 
-                    {/* Fullscreen preview on hover, only image is clickable */}
                     <div className="fullscreen-overlay">
                         <img
                             src={profileImage}
                             alt="Profile Full"
                             className="fullscreen-image"
                             onClick={(e) => {
-                                e.stopPropagation(); // prevent clicks from bubbling to overlay
+                                e.stopPropagation();
                                 fileInputRef.current.click();
                             }}
                         />
                     </div>
                 </div>
-
 
                 <div>
                     <h1 className="profile-name">{userName}</h1>
@@ -220,7 +335,6 @@ const ProfilePage = () => {
                 </div>
                 <NavLink to="/community-page/journal">
                     <FontAwesomeIcon icon={faPlusCircle} className="icon-plus" />
-
                 </NavLink>
                 <h5>Create Journal</h5>
             </div>
@@ -305,6 +419,16 @@ const ProfilePage = () => {
                     ) : (
                         userPosts.map((post) => (
                             <div key={post.id} className="post-card">
+                                <div className="post-header">
+                                    <p className="post-topic">#{post.topic}</p>
+                                    <button
+                                        className="delete-post-button"
+                                        onClick={() => deletePost(post.id)}
+                                    >
+                                        <FontAwesomeIcon icon={faTrash} />
+                                    </button>
+                                </div>
+
                                 {post.media && post.mediaType?.startsWith("image") && (
                                     <img src={post.media} alt="post" className="post-media" />
                                 )}
@@ -313,7 +437,6 @@ const ProfilePage = () => {
                                         <source src={post.media} />
                                     </video>
                                 )}
-                                <p className="post-topic">#{post.topic}</p>
                                 <p className="post-caption">{post.caption}</p>
                                 <p className="post-text">{post.text}</p>
 
@@ -322,13 +445,13 @@ const ProfilePage = () => {
                                         className={`like-button ${likedPosts[post.id] ? "liked" : ""}`}
                                         onClick={() => toggleLike(post.id)}
                                     >
-                                        <i className="fas fa-heart"></i> Like ({likedPosts[post.id] ? 1 : 0})
+                                        <i className="fas fa-heart"></i> H ({likedPosts[post.id] ? 1 : 0})
                                     </button>
                                     <button
                                         className="comment-button"
                                         onClick={() => toggleCommentsVisibility(post.id)}
                                     >
-                                        <i className="fas fa-comment"></i> Comment ({comments[post.id]?.length || 0})
+                                        <i className="fas fa-comment"></i> Comment ({(comments[post.id] && comments[post.id].length) || 0})
                                     </button>
                                     <button
                                         className="share-button"
@@ -341,8 +464,10 @@ const ProfilePage = () => {
                                 {showComments[post.id] && (
                                     <div className="comment-section">
                                         <div className="comment-list">
-                                            {comments[post.id]?.map((comment, index) => (
-                                                <div key={index} className="comment">{comment}</div>
+                                            {comments[post.id] && comments[post.id].map((comment, index) => (
+                                                <div key={index} className="comment">
+                                                    <strong>{comment.user}</strong>: {comment.text}
+                                                </div>
                                             ))}
                                         </div>
                                         <input

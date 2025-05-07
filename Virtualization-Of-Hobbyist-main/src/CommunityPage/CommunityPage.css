@@ -22,7 +22,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: linear-gradient(to bottom, black, #1e3a8a);
+    background: linear-gradient(to bottom, #72767b, #1e3a8a);
     padding: 1rem;
 }
 

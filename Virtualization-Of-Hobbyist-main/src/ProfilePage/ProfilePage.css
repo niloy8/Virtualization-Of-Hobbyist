@@ -153,7 +153,7 @@
 .post-actions button {
     background: none;
     border: none;
-    color: #555;
+    color: #5fa4a5;
     font-size: 14px;
     cursor: pointer;
     display: flex;
@@ -416,15 +416,18 @@ body {
 }
 
 /* Post Feed - General Styling */
-.post-card {
-    background-color: #fff;
+.post-feed .post-card {
+    background-color: #000000;
+
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     padding: 1.5rem;
+    outline-color: #ddd;
     margin-bottom: 1.5rem;
     max-width: 500px;
     margin-left: auto;
     margin-right: auto;
+
 }
 
 .post-media {
@@ -461,7 +464,7 @@ body {
 }
 
 .like-button.liked {
-    color: #ff6b6b;
+    color: #465ea9;
 }
 
 .like-button:hover,
@@ -480,7 +483,7 @@ body {
 
 .comment {
     margin-bottom: 0.75rem;
-    color: white;
+    color: rgb(50, 34, 34);
 }
 
 .comment-author {
@@ -496,7 +499,7 @@ body {
 .comment-input {
     width: 95%;
     padding: 0.5rem;
-    border: 1px solid #ccc;
+    border: none;
     border-radius: 4px;
     font-size: 1rem;
     background-color: #f9f9f9;
@@ -556,4 +559,43 @@ body {
     pointer-events: auto;
     /* Re-enable pointer events only on the image */
     cursor: pointer;
+}
+
+
+
+/*Hello*\
+/* Delete button styles */
+.delete-post-button {
+    background: none;
+    border: none;
+    color: #ff4d4d;
+    cursor: pointer;
+    font-size: 16px;
+    padding: 5px;
+    transition: color 0.2s;
+}
+
+.delete-post-button:hover {
+    color: #ff1a1a;
+}
+
+.post-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+/* Comment styles */
+.comment {
+    padding: 8px 12px;
+    margin: 5px 0;
+    background-color: #f5f5f5;
+    border-radius: 15px;
+    font-size: 14px;
+}
+
+.comment strong {
+    color: #333;
+    margin-right: 5px;
 }
